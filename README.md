@@ -11,7 +11,7 @@
     <span> · </span>
     <a href="#example">What is a pipe</a>
     <span> · </span>
-    <a href="#contact">Contact</a>
+    <a href="#sources">Sources</a>
 </h3>
 
 # Summary
