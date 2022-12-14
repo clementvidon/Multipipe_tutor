@@ -88,14 +88,14 @@ Fig.1 Overall idea of following multi-pipe example.
 
 # Example
 
-[**PROGRAM 1**](#program-1) see `multipipe.c: ft_pipe()`<br>
-[**PROGRAM 2**](#program-2) see `multipipe.c: ft_pipe()`<br>
-[**PROGRAM 3**](#program-3) see `multipipe.c: ft_last()`<br>
+[**Program 1**](#program-1) see `multipipe.c: ft_pipe()`<br>
+[**Program 2**](#program-2) see `multipipe.c: ft_pipe()`<br>
+[**Program 3**](#program-3) see `multipipe.c: ft_last()`<br>
 
 [**→ Example C Source Code**](https://github.com/clemedon/Multipipe_tutor/tree/main/src)<br>
 *For reasons of readability the code does not include any protection.*
 
-## INIT
+## Main
 
 ```
 main()
@@ -110,7 +110,7 @@ The **first child** doesn't need `prevpipe` because there is **no previous
 pipe** to connect to yet. Thus we must initialize `prevpipe` to any valid fd so
 as not to get an error from the `close` and `dup2` calls on on this fd.
 
-### PROGRAM 1
+### Program 1
 
 ```
 ft_pipe()
@@ -167,7 +167,7 @@ Fig.3 Pipe1 in the parent process.
                       ―――――――――――――――――――――
 ```
 
-### PROGRAM 2
+### Program 2
 
 ```
 ft_pipe()
@@ -214,7 +214,7 @@ Fig.5 Pipe2 in the parent process.
                       ―――――――――――――――――――――
 ```
 
-### PROGRAM 3
+### Program 3
 
 ```
 ft_last()
@@ -254,17 +254,14 @@ throughout the execution:
 
 ### Program 1
 
-**Child**
 ```
-                      P1[1]           P1[0]
+Child                 P1[1]           P1[0]
                       ―――――――――――――――――――――
    (A) Stdin → PRG1 → OPEN → (B)     CLOSED
                       ―――――――――――――――――――――
 ```
-
-**Parent**
 ```
-                      P1[1]           P1[0]
+Parent                P1[1]           P1[0]
                       ―――――――――――――――――――――
                       CLOSED     (C) → OPEN → prevpipe (D)
                       ―――――――――――――――――――――
@@ -272,17 +269,14 @@ throughout the execution:
 
 ### Program 2
 
-**Child**
 ```
-                      P2[1]           P2[0]
+Child                 P2[1]           P2[0]
                       ―――――――――――――――――――――
 (E) prevpipe → PRG2 → OPEN → (F)     CLOSED
                       ―――――――――――――――――――――
 ```
-
-**Parent**
 ```
-                      P2[1]           P2[0]
+Parent                P2[1]           P2[0]
                       ―――――――――――――――――――――
                       CLOSED     (G) → OPEN → prevpipe (H)
                       ―――――――――――――――――――――
@@ -290,9 +284,9 @@ throughout the execution:
 
 ### Program 3
 
-
-**Child**
 ```
+Child
+
 (I) prevpipe → PRG3 → Stdout (J)
 ```
 
