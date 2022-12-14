@@ -175,8 +175,8 @@ Illustration of the data stream travelling through our two pipes and their
 extra-process duplicates, each `=` represent a pipe with its write end at left
 and its read end at right.
 
-The **`(A)`** to **`(J)`** symbols as well as the **`→`** serve to pave the path
-of the stream of data throughout the whole execution.
+The exact path taken by the stream of data during the execution is indicated by
+the **`(A)`** to **`(J)`** and  **`→`** symbols.
 
 ```
 PRG1 in ft_pipe()
