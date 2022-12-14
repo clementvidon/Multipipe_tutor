@@ -51,11 +51,11 @@ implementation** for a program like `prg1 | prg2 | prg3`.
   ends in **two differents processes**.
 
 ```
-Fig.0 Interprocess communication with a single pipe.
+    Fig.0 Interprocess communication with a single pipe.
                    ₍₂₎
-    IN→ 1=====xxxx0
-          ⁽³⁾↓
-    ⁽¹⁾ 1xxxx=====0 →OUT
+        IN→ 1=====xxxx0
+              ⁽³⁾↓
+        ⁽¹⁾ 1xxxx=====0 →OUT
 
 (0) The main process (futur parent) creates a pipe and forks itself which
 duplicates its `pipefd[1]` and `pipefd[0]` into the newly created (child)
@@ -79,11 +79,11 @@ communication.
   another program** and so on.
 
 ```
-Fig.1 Overall idea of following multi-pipe example.
+    Fig.1 Overall idea of following multi-pipe example.
 
-   Stdin → PRG1  PRG2  PRG3 → Stdout  <three program execution
-              \  /  \  /              <interprocess communication
-               P1    P2               <two pipes
+        Stdin → PRG1  PRG2  PRG3 → Stdout  <three program execution
+                   \  /  \  /              <interprocess communication
+                    P1    P2               <two pipes
 ```
 
 No need to mention that **`Stdin` and `Stdout`** are the file descriptors where
