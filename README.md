@@ -27,7 +27,6 @@ For this purpose we will **implement a multi-pipe in C** and dissect the<br>
 
 [**→ GitHub Page ←**](https://clemedon.github.io/Multipipe_tutor/)<br>
 [**→ GitHub Repo ←**](https://github.com/clemedon/Multipipe_tutor/)<br>
-
 [**→ Source Code ←**](https://github.com/clemedon/Multipipe_tutor/tree/main/src)
 
 # What is a pipe
