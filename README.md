@@ -87,8 +87,8 @@ Fig.1 Overall idea of following multi-pipe example.
 [**PROGRAM 2**](#program-2) (Cf. `ft_pipe()`)<br>
 [**PROGRAM 3**](#program-3) (Cf. `ft_last()`)<br>
 
-[**→ Example C Source Code**](https://github.com/clemedon/Multipipe_tutor/tree/main/src)
-***For reasons of readability this code does not include any protection.***
+[**→ Example C Source Code**](https://github.com/clemedon/Multipipe_tutor/tree/main/src)<br>
+*For reasons of readability the code does not include any protection.*
 
 ## MAIN
 
@@ -233,5 +233,3 @@ Fig.6 Last program execution.
 
 - **`$ man 2 pipe`**
 - [**GPT Chat**](https://chat.openai.com/chat)
-
-[**PAGE UP**](#program-3)
