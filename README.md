@@ -119,12 +119,8 @@ get an error from the `close` and `dup2`.*
  - redirect Stdout to P1[1]     Fill the pipe with PRG1 output.
  - close              P1[1]     Not needed anymore.
  - exec
-```
 
-*I don't need to mention that `Stdin` and `Stdout` are the file descriptors
-where `PRG` reads its input and writes its output.*
 
-```
 Fig.2 Pipe1 in the child process.
 
 
@@ -136,6 +132,9 @@ Fig.2 Pipe1 in the child process.
 
 ***The (A) to (J) symbols indicate the path taken by the stream of data.***
 
+*I don't need to mention that `Stdin` and `Stdout` are the file descriptors
+where `PRG` reads its input and writes its output.*
+
 *The child pipe (Fig.2) is a duplicate of the parent pipe (Fig.3).  To repeat
 myself, since two processes share the same pipe they can communicate through it
 by writing to one end of the pipe in one process and listening to the other end
@@ -146,9 +145,8 @@ of this same pipe in the other process.*
 ```
  - close              P1[1]     Unused
  - prevpipe         = P1[0]     Save prevpipe for PRG2 Stdin.
-```
 
-```
+
 Fig.3 Pipe1 in the parent process.
 
 
@@ -174,9 +172,8 @@ Fig.3 Pipe1 in the parent process.
  - redirect Stdout to P2[1]     Fill the pipe with PRG2 output.
  - close              P2[1]     Not needed anymore.
  - exec
-```
 
-```
+
 Fig.4 Pipe2 in the child process.
 
 
@@ -191,9 +188,8 @@ Fig.4 Pipe2 in the child process.
 ```
  - close              P2[1]     Unused
  - prevpipe         = P2[0]     Save prevpipe for PRG3 Stdin.
-```
 
-```
+
 Fig.5 Pipe2 in the parent process.
 
 
@@ -215,9 +211,8 @@ Fig.5 Pipe2 in the parent process.
  - redirect Stdin  to prevpipe  Here P2[0] (the previous P[0]).
  - close              prevpipe  Not needed anymore
  - exec
-```
 
-```
+
 Fig.6 Last program execution.
 
 
