@@ -7,11 +7,11 @@
     <span> · </span>
     <a href="#pipe">Pipe</a>
     <span> · </span>
-    <a href="#multipipe">Multipipe</a>
+    <a href="#multi-pipe">Multi-pipe</a>
     <span> · </span>
     <a href="#example">Example</a>
     <span> · </span>
-    <a href="#sum-up">Sum Up</a>
+    <a href="#sum-up">Sum-up</a>
     <span> · </span>
     <a href="#sources">Sources</a>
 </h3>
@@ -29,7 +29,7 @@ implementation** for a program like `prg1 | prg2 | prg3`.
 [**→ GitHub Page ←**](https://clemedon.github.io/Multipipe_tutor/)<br>
 [**→ GitHub Repo ←**](https://github.com/clemedon/Multipipe_tutor/)
 
-# What is a pipe
+# Pipe
 
 - A pipe is a **unidirectional** data channel that can be used for **interprocess**
   communication.
@@ -40,7 +40,7 @@ implementation** for a program like `prg1 | prg2 | prg3`.
 - **Data written to the write end of the pipe is buffered** by the kernel until it
   is read from the read end of the pipe.
 
-# Now multi-pipe
+# Multi-pipe
 
 - The following example creates a pipe and fork to create a child process; the
   child inherits a **duplicate set of file descriptors that refer to the same
