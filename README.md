@@ -229,41 +229,38 @@ Parent
 The **(A) to (J) symbols** indicate the path taken by the stream of data
 throughout the execution:
 
-#### Program 1 (ft_pipe)
-##### Pipe1 in the child process.
-
 ```
+Program 1 (ft_pipe)
+- Pipe1 in the child process.
+
                       P1[1]           P1[0]
                       ―――――――――――――――――――――
    (A) Stdin → PRG1 → OPEN → (B)     CLOSED
                       ―――――――――――――――――――――
-```
-##### Pipe1 in the parent process.
-```
+
+- Pipe1 in the parent process.
+
                       P1[1]           P1[0]
                       ―――――――――――――――――――――
                       CLOSED     (C) → OPEN → prevpipe (D)
                       ―――――――――――――――――――――
-```
-#### Program 2 (ft_pipe)
-##### Pipe2 in the child process.
-```
+
+Program 2 (ft_pipe)
+- Pipe2 in the child process.
 
                       P2[1]           P2[0]
                       ―――――――――――――――――――――
 (E) prevpipe → PRG2 → OPEN → (F)     CLOSED
-                          ―――――――――――――――――――――
-```
-##### Pipe2 in the parent process.
-```
+                      ―――――――――――――――――――――
+
+- Pipe2 in the parent process.
+
                       P2[1]           P2[0]
                       ―――――――――――――――――――――
                       CLOSED     (G) → OPEN → prevpipe (H)
                       ―――――――――――――――――――――
-```
-#### Program 3 (ft_last)
-##### Last program execution.
-```
+Program 3 (ft_last)
+- Last program execution.
 
 (I) prevpipe → PRG3 → Stdout (J)
 ```
