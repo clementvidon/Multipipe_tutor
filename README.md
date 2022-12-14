@@ -217,8 +217,8 @@ Last program execution.
 (I) prevpipe → PRG3 → Stdout (J)
 ```
 
-[**Return to Instructions ↑**](#instructions)
-[**Return to Illustration ↑**](#Illustration)
+[**Return to Instructions ↑**](#instructions)<br>
+[**Return to Illustration ↑**](#illustration)
 
 # Sources
 
