@@ -25,9 +25,9 @@ distant memory the day I need it.
 For this purpose we will **dissect** the execution of a **C multi-pipe
 implementation** for a program like `prg1 | prg2 | prg3`.
 
-[**→ Source Code ←**](https://github.com/clemedon/Multipipe_tutor/tree/main/src)<br>
 [**→ GitHub Page ←**](https://clemedon.github.io/Multipipe_tutor/)<br>
-[**→ GitHub Repo ←**](https://github.com/clemedon/Multipipe_tutor/)
+[**→ GitHub Repo ←**](https://github.com/clemedon/Multipipe_tutor/)<br>
+[**→ Source Code ←**](https://github.com/clemedon/Multipipe_tutor/tree/main/src)
 
 # Pipe
 
@@ -95,8 +95,11 @@ The **(A) to (J) symbols** in each Program plans indicate the path taken by the
 stream of data throughout the execution.
 
 [**Program 1**](#program-1)<br>
+
 [**Program 2**](#program-2)<br>
+
 [**Program 3**](#program-3)<br>
+
 [**Compact**](#compact)<br>
 
 [**→ Source Code ←**](https://github.com/clemedon/Multipipe_tutor/tree/main/src)<br>
