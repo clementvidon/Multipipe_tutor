@@ -88,9 +88,9 @@ Fig.1 Overall idea of following multi-pipe example.
 
 # Example
 
-[**PROGRAM 1**](#program-1) (Cf. `ft_pipe()`)
-[**PROGRAM 2**](#program-2) (Cf. `ft_pipe()`)
-[**PROGRAM 3**](#program-3) (Cf. `ft_last()`)
+[**PROGRAM 1**](#program-1) (Cf. `ft_pipe()`)<br>
+[**PROGRAM 2**](#program-2) (Cf. `ft_pipe()`)<br>
+[**PROGRAM 3**](#program-3) (Cf. `ft_last()`)<br>
 
 [**→ Example C Source Code**](https://github.com/clemedon/Multipipe_tutor/tree/main/src)
 
@@ -107,17 +107,21 @@ get an error from the `close` and `dup2`.*
 
 #### PROGRAM 1
 
+```
  - create a pipe     P1[2]      Size 2 array that contains P1[0] and P1[1]
  - create a child               Which duplicate P1
+```
 
 ***Child***
 
+```
  - close              P1[0]     Unused.
- - redirect Stdin  to **prevpipe**  Here **Stdin** (cf. prevpipe init).
+ - redirect Stdin  to prevpipe  Here Stdin (cf. prevpipe init).
  - close              prevpipe  Not needed anymore.
  - redirect Stdout to P1[1]     Fill the pipe with PRG1 output.
  - close              P1[1]     Not needed anymore.
  - exec
+```
 
 *I don't need to mention that `Stdin` and `Stdout` are the file descriptors
 where `PRG` reads its input and writes its output.*
@@ -141,8 +145,10 @@ of this same pipe in the other process.*
 
 ***Parent***
 
+```
  - close              P1[1]     Unused
  - prevpipe         = P1[0]     Save prevpipe for PRG2 Stdin.
+```
 
 ```
 Fig.3 Pipe1 in the parent process.
@@ -156,17 +162,21 @@ Fig.3 Pipe1 in the parent process.
 
 #### PROGRAM 2
 
+```
  - create a pipe     P2[2]      Size 2 array that contains P2[0] and P2[1]
  - create a child               Which duplicate P2
+```
 
 ***Child***
 
+```
  - close              P2[0]     Unused.
- - redirect Stdin  to **prevpipe**  Here **P1[0]** (the previous P[0]).
+ - redirect Stdin  to prevpipe  Here P1[0] (the previous P[0]).
  - close              prevpipe  Not needed anymore.
  - redirect Stdout to P2[1]     Fill the pipe with PRG2 output.
  - close              P2[1]     Not needed anymore.
  - exec
+```
 
 ```
 Fig.4 Pipe2 in the child process.
@@ -180,8 +190,10 @@ Fig.4 Pipe2 in the child process.
 
 ***Parent***
 
+```
  - close              P2[1]     Unused
  - prevpipe         = P2[0]     Save prevpipe for PRG3 Stdin.
+```
 
 ```
 Fig.5 Pipe2 in the parent process.
@@ -199,9 +211,11 @@ Fig.5 Pipe2 in the parent process.
 
 ***Child***
 
- - redirect Stdin  to **prevpipe**  Here **P2[0]** (the previous P[0]).
+```
+ - redirect Stdin  to prevpipe  Here P2[0] (the previous P[0]).
  - close              prevpipe  Not needed anymore
  - exec
+```
 
 ```
 Fig.6 Last program execution.
@@ -212,8 +226,10 @@ Fig.6 Last program execution.
 
 ***Parent***
 
- - close              **prevpipe**  Unused
+```
+ - close              prevpipe  Unused
  - wait for children
+```
 
 # Sources
 
