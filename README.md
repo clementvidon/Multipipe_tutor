@@ -22,11 +22,13 @@ This project aims to guarantee me a quick and clear reunderstanding of the
 implementation of the **multi-pipe** when the notion will be as rusty as a
 distant memory the day I need it.
 
-For this purpose we will **implement a multi-pipe in C** and dissect the **`echo
-five | wc -c | grep a`** command execution.
+For this purpose we will **implement a multi-pipe in C** and dissect the<br>
+**`echo five | wc -c | grep a`** command execution.
 
 [**→ GitHub Page ←**](https://clemedon.github.io/Multipipe_tutor/)<br>
-[**→ GitHub Repo ←**](https://github.com/clemedon/Multipipe_tutor/)
+[**→ GitHub Repo ←**](https://github.com/clemedon/Multipipe_tutor/)<br>
+
+[**→ Source Code ←**](https://github.com/clemedon/Multipipe_tutor/tree/main/src)
 
 # What is a pipe
 
