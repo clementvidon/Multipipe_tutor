@@ -92,7 +92,9 @@ Fig.1 Overall idea of following multi-pipe example.
 
 ## MAIN
 
+```
  - initialize **prevpipe** to any valid file descriptor.
+```
 
 *`prevpipe` is the variable used to pass the previous pipe read end to the next
 program Stdin.*
@@ -132,7 +134,7 @@ Fig.2 Pipe1 in the child process.
                       ------------------------
 ```
 
-***>> The (A) to (J) symbols indicate the path taken by the stream of data.***
+***The (A) to (J) symbols indicate the path taken by the stream of data.***
 
 *The child pipe (Fig.2) is a duplicate of the parent pipe (Fig.3).  To repeat
 myself, since two processes share the same pipe they can communicate through it
