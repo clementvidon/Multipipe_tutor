@@ -88,22 +88,21 @@ communication.
 
 - **`PRG`** stands for Program (at least one per command from the command line).
 - **`P`** stands for Pipe (at least one for  communicating programs)
-- No need to mention that **`Stdin` and `Stdout`** are the file descriptors
+- No need to mention that **`Stdin`** and **`Stdout`** are the file descriptors
   where `PRG` reads its input and writes its output.
 
 # Instructions
 
-- This pseudo code aiming to describe each step of the execution of the code.
+This pseudo code describes each step of the execution of the code. You can
+easily compare this with the original [**C Code**](https://github.com/clemedon/Multipipe_tutor/tree/main/src)<br>
 
-[**→ Source Code ←**](https://github.com/clemedon/Multipipe_tutor/tree/main/src)<br>
 *For reasons of readability the code does not include any protection.*
 
-- Note that the **first child** doesn't need `prevpipe` because there is **no
-  previous pipe** to connect. Thus we must initialize `prevpipe` to any valid fd
-  so as not to get an error from the `close` and `dup2` calls on an invalid fd.
-  `prevpipe` is the variable that we use to **pass the previous pipe read end to
-  the next program Stdin**.
-
+Note that the **first child** doesn't need `prevpipe` because there is **no
+previous pipe** to connect. Thus we must initialize `prevpipe` to any valid fd
+so as not to get an error from the `close` and `dup2` calls on an invalid fd.
+`prevpipe` is the variable that we use to **pass the previous pipe read end to
+the next program Stdin**.
 
 ```
 main()
@@ -170,12 +169,12 @@ PRG3 in ft_last()
 
 # Illustration
 
-- Illustration of the data stream travelling through our two pipes and their
-  extra-process duplicates, each `=` represent a pipe with its write end at left
-  and its read end at right.
+Illustration of the data stream travelling through our two pipes and their
+extra-process duplicates, each `=` represent a pipe with its write end at left
+and its read end at right.
 
-- The **(A)** to **(J)** symbols as well as the `→` serve to pave the path of
-  the stream of data throughout the whole execution.
+The **(A)** to **(J)** symbols as well as the `→` serve to pave the path of the
+stream of data throughout the whole execution.
 
 ```
 PRG1 in ft_pipe()
