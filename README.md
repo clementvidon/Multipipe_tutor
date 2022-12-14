@@ -25,6 +25,9 @@ distant memory the day I need it.
 For this purpose we will **implement a multi-pipe in C** and dissect the **`echo
 five | wc -c | grep a`** command execution.
 
+[**→ GitHub Page ←**](https://clemedon.github.io/Multipipe_tutor/)<br>
+[**→ GitHub Repo ←**](https://github.com/clemedon/Multipipe_tutor/)
+
 # What is a pipe
 
 - A pipe is a **unidirectional** data channel that can be used for **interprocess**
