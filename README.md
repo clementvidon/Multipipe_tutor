@@ -82,9 +82,9 @@ Fig.1 Overall idea of following multi-pipe example.
 
 # Example
 
-[**PROGRAM 1**](#program-1) (Cf. `ft_pipe()`)<br>
-[**PROGRAM 2**](#program-2) (Cf. `ft_pipe()`)<br>
-[**PROGRAM 3**](#program-3) (Cf. `ft_last()`)<br>
+[**PROGRAM 1**](#program-1) see `multipipe.c: ft_pipe()`<br>
+[**PROGRAM 2**](#program-2) see `multipipe.c: ft_pipe()`<br>
+[**PROGRAM 3**](#program-3) see `multipipe.c: ft_last()`<br>
 
 [**→ Example C Source Code**](https://github.com/clemedon/Multipipe_tutor/tree/main/src)<br>
 *For reasons of readability the code does not include any protection.*
@@ -92,15 +92,15 @@ Fig.1 Overall idea of following multi-pipe example.
 ## MAIN
 
 ```
- - initialize **prevpipe** to any valid file descriptor.
+ - initialize prevpipe to any valid file descriptor.
 ```
 
-`prevpipe` is the variable used to pass the previous pipe read end to the next
-program Stdin.
+`prevpipe` is the variable used to **pass the previous pipe read end to the next
+program Stdin**.
 
-The first child doesn't need `prevpipe` because there is no previous pipe to
-connect to yet. Thus we must initialize `prevpipe` to any valid fd so as not to
-get an error from the `close` and `dup2`.
+The **first child** doesn't need `prevpipe` because there is **no previous
+pipe** to connect to yet. Thus we must initialize `prevpipe` to any valid fd so
+as not to get an error from the `close` and `dup2` calls on on this fd.
 
 ### PROGRAM 1
 
@@ -127,14 +127,14 @@ Fig.2 Pipe1 in the child process.
                       ――――――――――――――――――――――――
   (A) Stdin → PRG1 →  OPEN → (B)        CLOSED
                       ――――――――――――――――――――――――
+
+The (A) to (J) symbols indicate the path taken by the stream of data.
 ```
 
-**The (A) to (J) symbols indicate the path taken by the stream of data.**
-
-No need to mention that `Stdin` and `Stdout` are the file descriptors where
+No need to mention that **`Stdin` and `Stdout`** are the file descriptors where
 `PRG` reads its input and writes its output.
 
-The child pipe (Fig.2) is a duplicate of the parent pipe (Fig.3).  To repeat
+The child pipe `Fig.2` is a duplicate of the parent pipe `Fig.3`.  To repeat
 myself, since two processes share the same pipe they can communicate through it
 by writing to one end of the pipe in one process and listening to the other end
 of this same pipe in the other process.
@@ -225,6 +225,54 @@ Fig.6 Last program execution.
  - wait for children
 ```
 
+## Sum Up
+
+The **`(A)` to `(J)` symbols** indicate the path taken by the stream of data
+throughout the execution:
+
+```
+
+Program 1 Child
+
+
+                      P1[1]              P1[0]
+                      ――――――――――――――――――――――――
+  (A) Stdin → PRG1 →  OPEN → (B)        CLOSED
+                      ――――――――――――――――――――――――
+
+
+Program 1 Parent
+
+
+                      P1[1]              P1[0]
+                      ――――――――――――――――――――――――
+                      CLOSED        (C) → OPEN → prevpipe (D)
+                      ――――――――――――――――――――――――
+
+
+Program 2 Child
+
+
+                      P2[1]              P2[0]
+                      ――――――――――――――――――――――――
+(E) prevpipe → PRG2 → OPEN → (F)        CLOSED
+                      ――――――――――――――――――――――――
+
+
+Program 2 Parent
+
+
+                      P2[1]              P2[0]
+                      ――――――――――――――――――――――――
+                      CLOSED        (G) → OPEN → prevpipe (H)
+                      ――――――――――――――――――――――――
+
+
+Program 3
+
+
+(I) prevpipe → PRG3 → Stdout (J)
+```
 # Sources
 
 - **`$ man 2 pipe`**
