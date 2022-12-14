@@ -14,6 +14,8 @@
     <a href="#illustration">Illustration</a>
     <span> · </span>
     <a href="#sources">Sources</a>
+    <span> · </span>
+    <a href="#contact">Contact</a>
 </h3>
 
 # Summary
@@ -215,9 +217,19 @@ Last program execution.
 (I) prevpipe → PRG3 → Stdout (J)
 ```
 
+[**Return to Instructions ↑**](#instructions)
+[**Return to Illustration ↑**](#Illustration)
+
 # Sources
 
 - **`$ man 2 pipe`**
 - [**GPT Chat**](https://chat.openai.com/chat)
 
-[**Return to Index ↑**](#index)
+# Contact
+
+```
+cvidon   42
+clemedon icloud
+```
+
+<sub><i>Copyright 2022 Clément Vidon.  All Rights Reserved.</i></sub>
