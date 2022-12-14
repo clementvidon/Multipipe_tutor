@@ -229,38 +229,43 @@ Parent
 The **(A) to (J) symbols** indicate the path taken by the stream of data
 throughout the execution:
 
+#### Program 1 (ft_pipe)
+##### Pipe1 in the child process.
+
 ```
-Program 1
+                      P1[1]           P1[0]
+                      ―――――――――――――――――――――
+   (A) Stdin → PRG1 → OPEN → (B)     CLOSED
+                      ―――――――――――――――――――――
+```
+##### Pipe1 in the parent process.
+```
+                      P1[1]           P1[0]
+                      ―――――――――――――――――――――
+                      CLOSED     (C) → OPEN → prevpipe (D)
+                      ―――――――――――――――――――――
+```
+#### Program 2 (ft_pipe)
+##### Pipe2 in the child process.
+```
 
-ft_pipe()
-
-Child                     P1[1]           P1[0]
+                      P2[1]           P2[0]
+                      ―――――――――――――――――――――
+(E) prevpipe → PRG2 → OPEN → (F)     CLOSED
                           ―――――――――――――――――――――
-       (A) Stdin → PRG1 → OPEN → (B)     CLOSED
-                          ―――――――――――――――――――――
+```
+##### Pipe2 in the parent process.
+```
+                      P2[1]           P2[0]
+                      ―――――――――――――――――――――
+                      CLOSED     (G) → OPEN → prevpipe (H)
+                      ―――――――――――――――――――――
+```
+#### Program 3 (ft_last)
+##### Last program execution.
+```
 
-
-Parent                    P1[1]           P1[0]
-                          ―――――――――――――――――――――
-                          CLOSED     (C) → OPEN → prevpipe (D)
-                          ―――――――――――――――――――――
-Program 2
-
-ft_pipe()
-
-Child                     P2[1]           P2[0]
-                          ―――――――――――――――――――――
-    (E) prevpipe → PRG2 → OPEN → (F)     CLOSED
-                          ―――――――――――――――――――――
-
-
-Parent                    P2[1]           P2[0]
-                          ―――――――――――――――――――――
-                          CLOSED     (G) → OPEN → prevpipe (H)
-                          ―――――――――――――――――――――
-Child
-
-    (I) prevpipe → PRG3 → Stdout (J)
+(I) prevpipe → PRG3 → Stdout (J)
 ```
 
 # Sources
