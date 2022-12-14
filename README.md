@@ -37,14 +37,12 @@ five | wc -c | grep a`** command execution.
 # Now multi-pipe
 
 - The following example creates a pipe and fork to create a child process; the
-  child inherits a duplicate set of file descriptors that refer to the same
-  pipe.
+  child inherits a **duplicate set of file descriptors that refer to the same
+  pipe**.
 
 - After the fork each process closes the file descriptors that it doesn't need
-  for the pipe to have only two open ends, like a normal pipe.
-
-- The child write to `pipefd[1]` the write end of the pipe.  The parent transmit
-  `pipefd[0]` the read end of the pipe to the next child.
+  for the pipe to have only **two open ends**, like a normal pipe but with its
+  ends in **two differents processes**.
 
 ```
 Fig.0 Interprocess communication with a single pipe.
@@ -52,25 +50,26 @@ Fig.0 Interprocess communication with a single pipe.
     IN→ 1=====xxxx0
           ⁽³⁾↓
     ⁽¹⁾ 1xxxx=====0 →OUT
+
+(0) The main process (futur parent) creates a pipe and forks itself which
+duplicates its `pipefd[1]` and `pipefd[0]` into the newly created (child)
+process.
+
+(1) The parent process closes its pipefd[1] to prevent its process from writing
+in the pipe.
+
+(2) Simultaneously the child process closes its pipefd[0] to prevent its process
+from reading in the pipe.
+
+(3) In the end we have a parent that can read and a child that can write, both
+sharing the same pipe.  If the child write in the pipe, the data stream will
+find its way out in the read end of the parent process ⇒ interprocess
+communication.
 ```
 
-The main process (futur parent) creates a pipe and forks itself which duplicates
-its `pipefd[1]` and `pipefd[0]` into the newly created (child) process.
-
-1. The parent process closes its `pipefd[1]` to **prevent its process from
-writing** in the pipe.
-
-2. Simultaneously the child process closes its `pipefd[0]` to **prevent its
-process from reading** in the pipe.
-
-3. In the end we have a parent that can read and a child that can write, both
-sharing the same pipe.  If the child write in the pipe, the data stream will
-find its way out in the read end of the parent process ⇒ **interprocess
-communication**.
-
 - Alternating several pipes and processes we can thus create an interprocess
-  communication chain, passing the output of one program as the input of another
-  program and so on.
+  communication chain, **passing the output of one program as the input of
+  another program** and so on.
 
 
 ```
