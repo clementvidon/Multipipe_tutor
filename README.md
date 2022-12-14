@@ -9,9 +9,9 @@
     <span> · </span>
     <a href="#multi-pipe">Multi-pipe</a>
     <span> · </span>
-    <a href="#Index">Index</a>
+    <a href="#instructions">Instructions</a>
     <span> · </span>
-    <a href="#compact">Compact</a>
+    <a href="#illustration">Illustration</a>
     <span> · </span>
     <a href="#sources">Sources</a>
 </h3>
@@ -86,181 +86,132 @@ communication.
                     P1    P2               <two pipes
 ```
 
-No need to mention that **`Stdin` and `Stdout`** are the file descriptors where
-`PRG` reads its input and writes its output.
+- **`PRG`** stands for Program (at least one per command from the command line).
+- **`P`** stands for Pipe (at least one for  communicating programs)
+- No need to mention that **`Stdin` and `Stdout`** are the file descriptors
+  where `PRG` reads its input and writes its output.
 
-# Index
+# Instructions
 
-The **(A) to (J) symbols** in each Program plans indicate the path taken by the
-stream of data throughout the execution.
-
-[**Program 1**](#program-1)<br>
-
-[**Program 2**](#program-2)<br>
-
-[**Program 3**](#program-3)<br>
-
-[**Compact**](#compact)<br>
+- This pseudo code aiming to describe each step of the execution of the code.
 
 [**→ Source Code ←**](https://github.com/clemedon/Multipipe_tutor/tree/main/src)<br>
 *For reasons of readability the code does not include any protection.*
 
-## Main
+- Note that the **first child** doesn't need `prevpipe` because there is **no
+  previous pipe** to connect. Thus we must initialize `prevpipe` to any valid fd
+  so as not to get an error from the `close` and `dup2` calls on an invalid fd.
+  `prevpipe` is the variable that we use to **pass the previous pipe read end to
+  the next program Stdin**.
+
 
 ```
 main()
 
- - initialize prevpipe to any valid file descriptor.
+    - initialize prevpipe to any valid file descriptor.
+    - start the while loop that iterate over each of the 3 commands (PRG).
+
+
+PRG1 in ft_pipe()
+
+    - create a pipe     P1[2]      Size 2 array that contains P1[0] and P1[1]
+    - create a child               Which duplicate P1
+
+  Child
+
+    - close              P1[0]     Unused.
+    - redirect Stdin  to prevpipe  Here Stdin (cf. prevpipe init).
+    - close              prevpipe  Not needed anymore.
+    - redirect Stdout to P1[1]     Fill the pipe with PRG1 output.
+    - close              P1[1]     Not needed anymore.
+    - exec
+
+  Parent
+
+    - close              P1[1]     Unused
+    - prevpipe         = P1[0]     Save prevpipe for PRG2 Stdin.
+
+
+PRG2 in ft_pipe()
+
+    - create a pipe     P2[2]      Size 2 array that contains P2[0] and P2[1]
+    - create a child               Which duplicate P2
+
+  Child
+
+    - close              P2[0]     Unused.
+    - redirect Stdin  to prevpipe  Here P1[0] (the previous P[0]).
+    - close              prevpipe  Not needed anymore.
+    - redirect Stdout to P2[1]     Fill the pipe with PRG2 output.
+    - close              P2[1]     Not needed anymore.
+    - exec
+
+  Parent
+
+    - close              P2[1]     Unused
+    - prevpipe         = P2[0]     Save prevpipe for PRG3 Stdin.
+
+
+PRG3 in ft_last()
+
+    - create a child
+
+  Child
+
+    - redirect Stdin  to prevpipe  Here P2[0] (the previous P[0]).
+    - close              prevpipe  Not needed anymore
+    - exec
+
+  Parent
+
+    - close              prevpipe  Unused
+    - wait for children
 ```
 
-`prevpipe` is the variable used to **pass the previous pipe read end to the next
-program Stdin**.
+# Illustration
 
-The **first child** doesn't need `prevpipe` because there is **no previous
-pipe** to connect to yet. Thus we must initialize `prevpipe` to any valid fd so
-as not to get an error from the following `close` and `dup2` calls.
+- Illustration of the data stream travelling through our two pipes and their
+  extra-process duplicates, each `=` represent a pipe with its write end at left
+  and its read end at right.
 
-## Program 1
-
-```
-ft_pipe()
-
- - create a pipe     P1[2]      Size 2 array that contains P1[0] and P1[1]
- - create a child               Which duplicate P1
-
-Child
-
- - close              P1[0]     Unused.
- - redirect Stdin  to prevpipe  Here Stdin (cf. prevpipe init).
- - close              prevpipe  Not needed anymore.
- - redirect Stdout to P1[1]     Fill the pipe with PRG1 output.
- - close              P1[1]     Not needed anymore.
- - exec
-
-
-    Fig.2 Pipe1 in the child process.
-
-                          P1[1]           P1[0]
-                          ―――――――――――――――――――――
-       (A) Stdin → PRG1 → OPEN → (B)     CLOSED
-                          ―――――――――――――――――――――
-
-Parent
-
- - close              P1[1]     Unused
- - prevpipe         = P1[0]     Save prevpipe for PRG2 Stdin.
-
-
-    Fig.3 Pipe1 in the parent process.
-
-                          P1[1]           P1[0]
-                          ―――――――――――――――――――――
-                          CLOSED     (C) → OPEN → prevpipe (D)
-                          ―――――――――――――――――――――
-```
-
-## Program 2
+- The **(A)** to **(J)** symbols as well as the `→` serve to pave the path of
+  the stream of data throughout the whole execution.
 
 ```
-ft_pipe()
+PRG1 in ft_pipe()
 
- - create a pipe     P2[2]      Size 2 array that contains P2[0] and P2[1]
- - create a child               Which duplicate P2
-
-Child
-
- - close              P2[0]     Unused.
- - redirect Stdin  to prevpipe  Here P1[0] (the previous P[0]).
- - close              prevpipe  Not needed anymore.
- - redirect Stdout to P2[1]     Fill the pipe with PRG2 output.
- - close              P2[1]     Not needed anymore.
- - exec
-
-
-    Fig.4 Pipe2 in the child process.
-
-                          P2[1]           P2[0]
-                          ―――――――――――――――――――――
-    (E) prevpipe → PRG2 → OPEN → (F)     CLOSED
-                          ―――――――――――――――――――――
-
-Parent
-
- - close              P2[1]     Unused
- - prevpipe         = P2[0]     Save prevpipe for PRG3 Stdin.
-
-
-    Fig.5 Pipe2 in the parent process.
-
-                          P2[1]           P2[0]
-                          ―――――――――――――――――――――
-                          CLOSED     (G) → OPEN → prevpipe (H)
-                          ―――――――――――――――――――――
-```
-
-## Program 3
-
-```
-ft_last()
-
- - create a child
-
-Child
-
-ft_last()
-
- - redirect Stdin  to prevpipe  Here P2[0] (the previous P[0]).
- - close              prevpipe  Not needed anymore
- - exec
-
-
-    Fig.6 Last program execution.
-
-    (I) prevpipe → PRG3 → Stdout (J)
-
-Parent
-
- - close              prevpipe  Unused
- - wait for children
-```
-
-## Compact
-
-The **(A) to (J) symbols** indicate the path taken by the stream of data
-throughout the execution:
-
-```
-Program 1 (ft_pipe)
-- Pipe1 in the child process.
+P1 in the child process.
 
                       P1[1]           P1[0]
                       ―――――――――――――――――――――
    (A) Stdin → PRG1 → OPEN → (B)     CLOSED
                       ―――――――――――――――――――――
 
-- Pipe1 in the parent process.
+P1 in the parent process.
 
                       P1[1]           P1[0]
                       ―――――――――――――――――――――
                       CLOSED     (C) → OPEN → prevpipe (D)
                       ―――――――――――――――――――――
 
-Program 2 (ft_pipe)
-- Pipe2 in the child process.
+PRG2 in ft_pipe()
+
+P2 in the child process.
 
                       P2[1]           P2[0]
                       ―――――――――――――――――――――
 (E) prevpipe → PRG2 → OPEN → (F)     CLOSED
                       ―――――――――――――――――――――
 
-- Pipe2 in the parent process.
+P2 in the parent process.
 
                       P2[1]           P2[0]
                       ―――――――――――――――――――――
                       CLOSED     (G) → OPEN → prevpipe (H)
                       ―――――――――――――――――――――
-Program 3 (ft_last)
-- Last program execution.
+PRG3 in ft_last()
+
+Last program execution.
 
 (I) prevpipe → PRG3 → Stdout (J)
 ```
