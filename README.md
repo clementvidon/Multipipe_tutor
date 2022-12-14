@@ -94,7 +94,7 @@ Fig.1 Overall idea of following multi-pipe example.
 
 [**→ Example C Source Code**](https://github.com/clemedon/Multipipe_tutor/tree/main/src)
 
-### MAIN
+## MAIN
 
  - initialize **prevpipe** to any valid file descriptor.
 
@@ -105,14 +105,14 @@ program Stdin.*
 connect to yet. Thus we must initialize `prevpipe` to any valid fd so as not to
 get an error from the `close` and `dup2`.*
 
-#### PROGRAM 1
+### PROGRAM 1
 
 ```
  - create a pipe     P1[2]      Size 2 array that contains P1[0] and P1[1]
  - create a child               Which duplicate P1
 ```
 
-***Child***
+**[Child]**
 
 ```
  - close              P1[0]     Unused.
@@ -143,7 +143,7 @@ myself, since two processes share the same pipe they can communicate through it
 by writing to one end of the pipe in one process and listening to the other end
 of this same pipe in the other process.*
 
-***Parent***
+**[Parent]**
 
 ```
  - close              P1[1]     Unused
@@ -160,14 +160,14 @@ Fig.3 Pipe1 in the parent process.
                       ------------------------
 ```
 
-#### PROGRAM 2
+### PROGRAM 2
 
 ```
  - create a pipe     P2[2]      Size 2 array that contains P2[0] and P2[1]
  - create a child               Which duplicate P2
 ```
 
-***Child***
+**[Child]**
 
 ```
  - close              P2[0]     Unused.
@@ -188,7 +188,7 @@ Fig.4 Pipe2 in the child process.
                       ------------------------
 ```
 
-***Parent***
+**[Parent]**
 
 ```
  - close              P2[1]     Unused
@@ -205,11 +205,13 @@ Fig.5 Pipe2 in the parent process.
                       ------------------------
 ```
 
-#### PROGRAM 3
+### PROGRAM 3
 
+```
  - create a child
+```
 
-***Child***
+**[Child]**
 
 ```
  - redirect Stdin  to prevpipe  Here P2[0] (the previous P[0]).
@@ -224,7 +226,7 @@ Fig.6 Last program execution.
 (I) prevpipe → PRG3 → Stdout (J)
 ```
 
-***Parent***
+**[Parent]**
 
 ```
  - close              prevpipe  Unused
