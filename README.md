@@ -95,16 +95,16 @@ communication.
 
 # Instructions
 
-This pseudo code describes each step of the execution of the code. You can
-easily compare this with the original [**C Code**](https://github.com/clemedon/Multipipe_tutor/tree/main/src)<br>
+This pseudo code describes each step of the execution of the code.<br>
+You can easily compare this with the original [**C Code**](https://github.com/clemedon/Multipipe_tutor/tree/main/src)<br>
 
 *For reasons of readability the code does not include any protection.*
 
 Note that the **first child** doesn't need `prevpipe` because there is **no
 previous pipe** to connect. Thus we must initialize `prevpipe` to any valid fd
 so as not to get an error from the `close` and `dup2` calls on an invalid fd.
-`prevpipe` is the variable that we use to **pass the previous pipe read end to
-the next program Stdin**.
+`prevpipe` is the variable that we use to pass the previous pipe read end to the
+next program Stdin.
 
 ```
 main()
