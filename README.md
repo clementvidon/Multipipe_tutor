@@ -7,9 +7,9 @@
     <span> · </span>
     <a href="#what-is-a-pipe">What is a pipe</a>
     <span> · </span>
-    <a href="#now-multi-pipe">What is a pipe</a>
+    <a href="#now-multi-pipe">Now multi pipe</a>
     <span> · </span>
-    <a href="#example">What is a pipe</a>
+    <a href="#example">Example</a>
     <span> · </span>
     <a href="#sources">Sources</a>
 </h3>
@@ -24,9 +24,6 @@ For this purpose we will **implement a multi-pipe in C** and dissect the **`echo
 five | wc -c | grep a`** command execution.
 
 ***For reasons of readability this code does not include any protection.***
-
-[**→ GitHub Page ←**](https://clemedon.github.io/Multipipe_fitter/)<br>
-[**→ GitHub Repo ←**](https://github.com/clemedon/Multipipe_fitter/)
 
 # What is a pipe
 
