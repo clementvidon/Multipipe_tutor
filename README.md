@@ -5,9 +5,9 @@
 <h3 align="center">
     <a href="#summary">Summary</a>
     <span> · </span>
-    <a href="#what-is-a-pipe">What is a pipe</a>
+    <a href="#pipe">Pipe</a>
     <span> · </span>
-    <a href="#now-multi-pipe">Now multi pipe</a>
+    <a href="#multipipe">Multipipe</a>
     <span> · </span>
     <a href="#example">Example</a>
     <span> · </span>
@@ -23,7 +23,7 @@ implementation of the multi-pipe when the notion will be as rusty as a
 distant memory the day I need it.
 
 For this purpose we will **dissect** the execution of a **C multi-pipe
-implementation**.
+implementation** for a program like `prg1 | prg2 | prg3`.
 
 [**→ Source Code ←**](https://github.com/clemedon/Multipipe_tutor/tree/main/src)<br>
 [**→ GitHub Page ←**](https://clemedon.github.io/Multipipe_tutor/)<br>
@@ -81,7 +81,7 @@ communication.
 ```
 Fig.1 Overall idea of following multi-pipe example.
 
-   Stdin → PRG1  PRG2  PRG3 → Stdout  <three programs
+   Stdin → PRG1  PRG2  PRG3 → Stdout  <three program execution
               \  /  \  /              <interprocess communication
                P1    P2               <two pipes
 ```
@@ -95,9 +95,11 @@ Fig.1 Overall idea of following multi-pipe example.
 [**→ Example C Source Code**](https://github.com/clemedon/Multipipe_tutor/tree/main/src)<br>
 *For reasons of readability the code does not include any protection.*
 
-## MAIN
+## INIT
 
 ```
+main()
+
  - initialize prevpipe to any valid file descriptor.
 ```
 
@@ -111,6 +113,8 @@ as not to get an error from the `close` and `dup2` calls on on this fd.
 ### PROGRAM 1
 
 ```
+ft_pipe()
+
  - create a pipe     P1[2]      Size 2 array that contains P1[0] and P1[1]
  - create a child               Which duplicate P1
 ```
@@ -118,6 +122,8 @@ as not to get an error from the `close` and `dup2` calls on on this fd.
 **[Child]**
 
 ```
+ft_pipe()
+
  - close              P1[0]     Unused.
  - redirect Stdin  to prevpipe  Here Stdin (cf. prevpipe init).
  - close              prevpipe  Not needed anymore.
@@ -128,11 +134,10 @@ as not to get an error from the `close` and `dup2` calls on on this fd.
 
 Fig.2 Pipe1 in the child process.
 
-
-                      P1[1]              P1[0]
-                      ――――――――――――――――――――――――
-  (A) Stdin → PRG1 →  OPEN → (B)        CLOSED
-                      ――――――――――――――――――――――――
+                      P1[1]           P1[0]
+                      ―――――――――――――――――――――
+   (A) Stdin → PRG1 → OPEN → (B)     CLOSED
+                      ―――――――――――――――――――――
 
 The (A) to (J) symbols indicate the path taken by the stream of data.
 ```
@@ -148,22 +153,25 @@ of this same pipe in the other process.
 **[Parent]**
 
 ```
+ft_pipe()
+
  - close              P1[1]     Unused
  - prevpipe         = P1[0]     Save prevpipe for PRG2 Stdin.
 
 
 Fig.3 Pipe1 in the parent process.
 
-
-                      P1[1]              P1[0]
-                      ――――――――――――――――――――――――
-                      CLOSED        (C) → OPEN → prevpipe (D)
-                      ――――――――――――――――――――――――
+                      P1[1]           P1[0]
+                      ―――――――――――――――――――――
+                      CLOSED     (C) → OPEN → prevpipe (D)
+                      ―――――――――――――――――――――
 ```
 
 ### PROGRAM 2
 
 ```
+ft_pipe()
+
  - create a pipe     P2[2]      Size 2 array that contains P2[0] and P2[1]
  - create a child               Which duplicate P2
 ```
@@ -171,6 +179,8 @@ Fig.3 Pipe1 in the parent process.
 **[Child]**
 
 ```
+ft_pipe()
+
  - close              P2[0]     Unused.
  - redirect Stdin  to prevpipe  Here P1[0] (the previous P[0]).
  - close              prevpipe  Not needed anymore.
@@ -181,38 +191,42 @@ Fig.3 Pipe1 in the parent process.
 
 Fig.4 Pipe2 in the child process.
 
-
-                      P2[1]              P2[0]
-                      ――――――――――――――――――――――――
-(E) prevpipe → PRG2 → OPEN → (F)        CLOSED
-                      ――――――――――――――――――――――――
+                      P2[1]           P2[0]
+                      ―――――――――――――――――――――
+(E) prevpipe → PRG2 → OPEN → (F)     CLOSED
+                      ―――――――――――――――――――――
 ```
 
 **[Parent]**
 
 ```
+ft_pipe()
+
  - close              P2[1]     Unused
  - prevpipe         = P2[0]     Save prevpipe for PRG3 Stdin.
 
 
 Fig.5 Pipe2 in the parent process.
 
-
-                      P2[1]              P2[0]
-                      ――――――――――――――――――――――――
-                      CLOSED        (G) → OPEN → prevpipe (H)
-                      ――――――――――――――――――――――――
+                      P2[1]           P2[0]
+                      ―――――――――――――――――――――
+                      CLOSED     (G) → OPEN → prevpipe (H)
+                      ―――――――――――――――――――――
 ```
 
 ### PROGRAM 3
 
 ```
+ft_last()
+
  - create a child
 ```
 
 **[Child]**
 
 ```
+ft_last()
+
  - redirect Stdin  to prevpipe  Here P2[0] (the previous P[0]).
  - close              prevpipe  Not needed anymore
  - exec
@@ -227,56 +241,58 @@ Fig.6 Last program execution.
 **[Parent]**
 
 ```
+ft_last()
+
  - close              prevpipe  Unused
  - wait for children
 ```
 
 ## Sum Up
 
-The **`(A)` to `(J)` symbols** indicate the path taken by the stream of data
+The **(A) to (J) symbols** indicate the path taken by the stream of data
 throughout the execution:
 
+### Program 1
+
+**Child**
+```
+                      P1[1]           P1[0]
+                      ―――――――――――――――――――――
+   (A) Stdin → PRG1 → OPEN → (B)     CLOSED
+                      ―――――――――――――――――――――
 ```
 
-Program 1 Child
+**Parent**
+```
+                      P1[1]           P1[0]
+                      ―――――――――――――――――――――
+                      CLOSED     (C) → OPEN → prevpipe (D)
+                      ―――――――――――――――――――――
+```
+
+### Program 2
+
+**Child**
+```
+                      P2[1]           P2[0]
+                      ―――――――――――――――――――――
+(E) prevpipe → PRG2 → OPEN → (F)     CLOSED
+                      ―――――――――――――――――――――
+```
+
+**Parent**
+```
+                      P2[1]           P2[0]
+                      ―――――――――――――――――――――
+                      CLOSED     (G) → OPEN → prevpipe (H)
+                      ―――――――――――――――――――――
+```
+
+### Program 3
 
 
-                      P1[1]              P1[0]
-                      ――――――――――――――――――――――――
-  (A) Stdin → PRG1 →  OPEN → (B)        CLOSED
-                      ――――――――――――――――――――――――
-
-
-Program 1 Parent
-
-
-                      P1[1]              P1[0]
-                      ――――――――――――――――――――――――
-                      CLOSED        (C) → OPEN → prevpipe (D)
-                      ――――――――――――――――――――――――
-
-
-Program 2 Child
-
-
-                      P2[1]              P2[0]
-                      ――――――――――――――――――――――――
-(E) prevpipe → PRG2 → OPEN → (F)        CLOSED
-                      ――――――――――――――――――――――――
-
-
-Program 2 Parent
-
-
-                      P2[1]              P2[0]
-                      ――――――――――――――――――――――――
-                      CLOSED        (G) → OPEN → prevpipe (H)
-                      ――――――――――――――――――――――――
-
-
-Program 3 Child
-
-
+**Child**
+```
 (I) prevpipe → PRG3 → Stdout (J)
 ```
 
