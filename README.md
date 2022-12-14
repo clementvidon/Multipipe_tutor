@@ -11,6 +11,8 @@
     <span> · </span>
     <a href="#example">Example</a>
     <span> · </span>
+    <a href="#sum-up">Sum Up</a>
+    <span> · </span>
     <a href="#sources">Sources</a>
 </h3>
 
