@@ -270,11 +270,12 @@ Program 2 Parent
                       ――――――――――――――――――――――――
 
 
-Program 3
+Program 3 Child
 
 
 (I) prevpipe → PRG3 → Stdout (J)
 ```
+
 # Sources
 
 - **`$ man 2 pipe`**
