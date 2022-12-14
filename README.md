@@ -87,7 +87,7 @@ Fig.1 Overall idea of following multi-pipe example.
 [**PROGRAM 2**](#program-2) (Cf. `ft_pipe()`)<br>
 [**PROGRAM 3**](#program-3) (Cf. `ft_last()`)<br>
 
-[**→ Example C Source Code**](https://github.com/clemedon/Multipipe_tutor/tree/main/src)<br>
+[**→ Example C Source Code**](https://github.com/clemedon/Multipipe_fitter/tree/main/src)<br>
 *For reasons of readability the code does not include any protection.*
 
 ## MAIN
