@@ -43,7 +43,7 @@ five | wc -c | grep a`** command execution.
 - After the fork each process closes the file descriptors that it doesn't need
   for the pipe to have only two open ends, like a normal pipe.
 
-- The Child write to `pipefd[1]` the write end of the pipe.  The Parent transmit
+- The child write to `pipefd[1]` the write end of the pipe.  The parent transmit
   `pipefd[0]` the read end of the pipe to the next child.
 
 ```
