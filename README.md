@@ -23,8 +23,6 @@ distant memory the day I need it.
 For this purpose we will **implement a multi-pipe in C** and dissect the **`echo
 five | wc -c | grep a`** command execution.
 
-***For reasons of readability this code does not include any protection.***
-
 # What is a pipe
 
 - A pipe is a **unidirectional** data channel that can be used for **interprocess**
@@ -90,6 +88,7 @@ Fig.1 Overall idea of following multi-pipe example.
 [**PROGRAM 3**](#program-3) (Cf. `ft_last()`)<br>
 
 [**→ Example C Source Code**](https://github.com/clemedon/Multipipe_tutor/tree/main/src)
+***For reasons of readability this code does not include any protection.***
 
 ## MAIN
 
