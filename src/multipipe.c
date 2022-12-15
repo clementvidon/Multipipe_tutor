@@ -30,39 +30,9 @@ int	ft_cmdlen(char **cmd)
 }
 
 /*
- ** @brief      Last program.
- **
- ** @description
- **
- ** - Close unused prevpipe
- ** - Wait for children
- ** - Execute
- */
-
-void	ft_last(char **cmd, int cmdlen, char **env, int prevpipe)
-{
-	pid_t	cpid;
-
-	cpid = fork ();
-	if (cpid == 0)
-	{
-		dup2 (prevpipe, STDIN_FILENO);
-		close (prevpipe);
-		cmd[cmdlen] = NULL;
-		execve (cmd[0], cmd, env);
-	}
-	else
-	{
-		close (prevpipe);
-		while (wait (NULL) != -1)
-			;
-	}
-}
-
-/*
  ** @brief      Not last program.
  **
- ** @description
+ ** @instructions
  **
  ** Main
  **
@@ -108,6 +78,36 @@ void	ft_pipe(char **cmd, int cmdlen, char **env, int *prevpipe)
 }
 
 /*
+ ** @brief      Last program.
+ **
+ ** @instructions
+ **
+ ** - Close unused prevpipe
+ ** - Wait for children
+ ** - Execute
+ */
+
+void	ft_last(char **cmd, int cmdlen, char **env, int prevpipe)
+{
+	pid_t	cpid;
+
+	cpid = fork ();
+	if (cpid == 0)
+	{
+		dup2 (prevpipe, STDIN_FILENO);
+		close (prevpipe);
+		cmd[cmdlen] = NULL;
+		execve (cmd[0], cmd, env);
+	}
+	else
+	{
+		close (prevpipe);
+		while (wait (NULL) != -1)
+			;
+	}
+}
+
+/*
  ** @brief      Parse the given command.
  **
  ** @usage
@@ -124,7 +124,7 @@ void	ft_pipe(char **cmd, int cmdlen, char **env, int *prevpipe)
  **   valgrind -q --trace-children=yes --track-fds=yes ./a.out \
  **   /bin/echo five "|" /bin/wc -c "|" /bin/cat -e
  **
- ** @description
+ ** @instructions
  **
  ** - Init prevpipe to a valid fd
  */
