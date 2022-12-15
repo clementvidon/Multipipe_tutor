@@ -25,7 +25,7 @@
  ** - Execute
  */
 
-void	ft_last(char **cmd, int cmdlen, char **env, int prevpipe)
+void	ft_last(char **cmd, int len, char **env, int prevpipe)
 {
 	pid_t	cpid;
 
@@ -34,7 +34,7 @@ void	ft_last(char **cmd, int cmdlen, char **env, int prevpipe)
 	{
 		dup2 (prevpipe, STDIN_FILENO);
 		close (prevpipe);
-		cmd[cmdlen] = NULL;
+		cmd[len] = NULL;
 		execve (cmd[0], cmd, env);
 	}
 	else
@@ -68,7 +68,7 @@ void	ft_last(char **cmd, int cmdlen, char **env, int prevpipe)
  ** - Update prevpipe
  */
 
-void	ft_pipe(char **cmd, int cmdlen, char **env, int *prevpipe)
+void	ft_pipe(char **cmd, int len, char **env, int *prevpipe)
 {
 	int		pipefd[2];
 	pid_t	cpid;
@@ -82,7 +82,7 @@ void	ft_pipe(char **cmd, int cmdlen, char **env, int *prevpipe)
 		close (*prevpipe);
 		dup2 (pipefd[1], STDOUT_FILENO);
 		close (pipefd[1]);
-		cmd[cmdlen] = NULL;
+		cmd[len] = NULL;
 		execve (cmd[0], cmd, env);
 	}
 	else
@@ -97,7 +97,7 @@ void	ft_pipe(char **cmd, int cmdlen, char **env, int *prevpipe)
  ** @brief      Find the end of a command and return its index.
  */
 
-int	ft_cmdlen(char **cmd)
+int	ft_len(char	**cmd)
 {
 	int	len;
 
@@ -129,22 +129,22 @@ int	ft_cmdlen(char **cmd)
  ** - Init prevpipe to a valid fd
  */
 
-int	main(int ac, char **av, char **env)
+int	main(int ac, char **cmd, char **env)
 {
 	int	prevpipe;
-	int	cmdlen;
+	int	len;
 
 	(void)ac;
-	cmdlen = 0;
+	len = 0;
 	prevpipe = dup (0);
-	while (av[cmdlen] && av[cmdlen + 1])
+	while (cmd[len] && cmd[len + 1])
 	{
-		av += cmdlen + 1;
-		cmdlen = ft_cmdlen (av);
-		if (av[cmdlen] != NULL && *av[cmdlen] == '|')
-			ft_pipe (av, cmdlen, env, &prevpipe);
-		else if (av[cmdlen] == NULL || *av[cmdlen] == ';')
-			ft_last (av, cmdlen, env, prevpipe);
+		cmd += len + 1;
+		len = ft_len (cmd);
+		if (cmd[len] != NULL && *cmd[len] == '|')
+			ft_pipe (cmd, len, env, &prevpipe);
+		else if (cmd[len] == NULL || *cmd[len] == ';')
+			ft_last (cmd, len, env, prevpipe);
 	}
 	return (0);
 }
