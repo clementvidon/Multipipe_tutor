@@ -16,17 +16,33 @@
 #include <stdio.h>
 
 /*
- ** @brief      Find the end of a command and return its index.
+ ** @brief      Last program.
+ **
+ ** @instructions
+ **
+ ** - Close unused prevpipe
+ ** - Wait for children
+ ** - Execute
  */
 
-int	ft_cmdlen(char **cmd)
+void	ft_last(char **cmd, int cmdlen, char **env, int prevpipe)
 {
-	int	len;
+	pid_t	cpid;
 
-	len = 0;
-	while (cmd[len] && *cmd[len] != '|' && *cmd[len] != ';')
-		len++;
-	return (len);
+	cpid = fork ();
+	if (cpid == 0)
+	{
+		dup2 (prevpipe, STDIN_FILENO);
+		close (prevpipe);
+		cmd[cmdlen] = NULL;
+		execve (cmd[0], cmd, env);
+	}
+	else
+	{
+		close (prevpipe);
+		while (wait (NULL) != -1)
+			;
+	}
 }
 
 /*
@@ -78,33 +94,17 @@ void	ft_pipe(char **cmd, int cmdlen, char **env, int *prevpipe)
 }
 
 /*
- ** @brief      Last program.
- **
- ** @instructions
- **
- ** - Close unused prevpipe
- ** - Wait for children
- ** - Execute
+ ** @brief      Find the end of a command and return its index.
  */
 
-void	ft_last(char **cmd, int cmdlen, char **env, int prevpipe)
+int	ft_cmdlen(char **cmd)
 {
-	pid_t	cpid;
+	int	len;
 
-	cpid = fork ();
-	if (cpid == 0)
-	{
-		dup2 (prevpipe, STDIN_FILENO);
-		close (prevpipe);
-		cmd[cmdlen] = NULL;
-		execve (cmd[0], cmd, env);
-	}
-	else
-	{
-		close (prevpipe);
-		while (wait (NULL) != -1)
-			;
-	}
+	len = 0;
+	while (cmd[len] && *cmd[len] != '|' && *cmd[len] != ';')
+		len++;
+	return (len);
 }
 
 /*
