@@ -16,6 +16,20 @@
 #include <stdio.h>
 
 /*
+ ** @brief      Find the end of a command and return its index.
+ */
+
+int	ft_len(char	**cmd)
+{
+	int	len;
+
+	len = 0;
+	while (cmd[len] && *cmd[len] != '|')
+		len++;
+	return (len);
+}
+
+/*
  ** @brief      Last program.
  **
  ** @instructions
@@ -94,20 +108,6 @@ void	ft_pipe(char **cmd, int len, char **env, int *prevpipe)
 }
 
 /*
- ** @brief      Find the end of a command and return its index.
- */
-
-int	ft_len(char	**cmd)
-{
-	int	len;
-
-	len = 0;
-	while (cmd[len] && *cmd[len] != '|' && *cmd[len] != ';')
-		len++;
-	return (len);
-}
-
-/*
  ** @brief      Parse the given command.
  **
  ** @usage
@@ -143,7 +143,7 @@ int	main(int ac, char **cmd, char **env)
 		len = ft_len (cmd);
 		if (cmd[len] != NULL && *cmd[len] == '|')
 			ft_pipe (cmd, len, env, &prevpipe);
-		else if (cmd[len] == NULL || *cmd[len] == ';')
+		else if (cmd[len] == NULL)
 			ft_last (cmd, len, env, prevpipe);
 	}
 	return (0);
