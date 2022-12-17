@@ -115,57 +115,57 @@ main()
 
 PRG1 in ft_pipe()
 
-    - create a pipe     P1[2]      Size 2 array that contains P1[0] and P1[1]
-    - create a child               Which duplicate P1
+    - create a pipe     P1[2]       Size 2 array that contains P1[0] and P1[1]
+    - fork itself                   Which clones P1
 
   Child
 
-    - close              P1[0]     Unused.
-    - redirect Stdin  to prevpipe  Here Stdin (cf. prevpipe init).
-    - close              prevpipe  Not needed anymore.
-    - redirect Stdout to P1[1]     Fill the pipe with PRG1 output.
-    - close              P1[1]     Not needed anymore.
+    - close              P1[0]      Unused
+    - redirect Stdin  to prevpipe   Here Stdin (cf. prevpipe init)
+    - close              prevpipe   Not needed anymore
+    - redirect Stdout to P1[1]      Fill the pipe with PRG1 output
+    - close              P1[1]      Not needed anymore
     - exec
 
   Parent
 
-    - close              P1[1]     Unused
-    - prevpipe         = P1[0]     Save prevpipe for PRG2 Stdin.
+    - close              P1[1]      Unused
+    - prevpipe         = P1[0]      Save prevpipe for PRG2 Stdin
 
 
 PRG2 in ft_pipe()
 
-    - create a pipe     P2[2]      Size 2 array that contains P2[0] and P2[1]
-    - create a child               Which duplicate P2
+    - create a pipe     P2[2]       Size 2 array that contains P2[0] and P2[1]
+    - fork itself                   Which clones P2
 
   Child
 
-    - close              P2[0]     Unused.
-    - redirect Stdin  to prevpipe  Here P1[0] (the previous P[0]).
-    - close              prevpipe  Not needed anymore.
-    - redirect Stdout to P2[1]     Fill the pipe with PRG2 output.
-    - close              P2[1]     Not needed anymore.
+    - close              P2[0]      Unused
+    - redirect Stdin  to prevpipe   Here P1[0] (the previous P[0])
+    - close              prevpipe   Not needed anymore
+    - redirect Stdout to P2[1]      Fill the pipe with PRG2 output
+    - close              P2[1]      Not needed anymore
     - exec
 
   Parent
 
-    - close              P2[1]     Unused
-    - prevpipe         = P2[0]     Save prevpipe for PRG3 Stdin.
+    - close              P2[1]      Unused
+    - prevpipe         = P2[0]      Save prevpipe for PRG3 Stdin
 
 
 PRG3 in ft_last()
 
-    - create a child
+    - fork itself
 
   Child
 
-    - redirect Stdin  to prevpipe  Here P2[0] (the previous P[0]).
-    - close              prevpipe  Not needed anymore
+    - redirect Stdin  to prevpipe   Here P2[0] (the previous P[0])
+    - close              prevpipe   Not needed anymore
     - exec
 
   Parent
 
-    - close              prevpipe  Unused
+    - close              prevpipe   Unused
     - wait for children
 ```
 

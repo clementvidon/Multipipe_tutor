@@ -16,27 +16,20 @@
 #include <stdio.h>
 
 /*
- ** @brief      Find the end of a command and return its index.
- */
-
-int	ft_len(char	**cmd)
-{
-	int	len;
-
-	len = 0;
-	while (cmd[len] && *cmd[len] != '|')
-		len++;
-	return (len);
-}
-
-/*
  ** @brief      Last program.
  **
- ** @instructions
+ ** @Instructions
  **
- ** - Close unused prevpipe
- ** - Wait for children
- ** - Execute
+ ** 	Parent
+ **
+ ** 	- Redirect Stdin to prevpipe
+ ** 	- Close prevpipe
+ ** 	- Execute
+ **
+ ** 	Child
+ **
+ ** 	- Close unused prevpipe
+ ** 	- Wait for children
  */
 
 void	ft_last(char **cmd, int len, char **env, int prevpipe)
@@ -64,22 +57,20 @@ void	ft_last(char **cmd, int len, char **env, int prevpipe)
  **
  ** @instructions
  **
- ** Main
+ **		- create a pipe
+ **		- fork itself
  **
- ** - Creates a pipe
- ** - Creates a child
+ ** 	Child (Writer)
  **
- ** Child (Writer)
+ ** 	- Close unused pipefd[0]
+ ** 	- Redirect Stdin to prevpipe
+ ** 	- Redirect Stdout to pipefd[1]
+ ** 	- Execute
  **
- ** - Close unused pipefd[0]
- ** - Redirect STDIN to STDIN or prevpipe
- ** - Redirect STDOUT to pipefd[1]
- ** - Execute
+ ** 	Parent (Reader)
  **
- ** Parent (Reader)
- **
- ** - Close unused pipefd[1]
- ** - Update prevpipe
+ ** 	- Close unused pipefd[1]
+ ** 	- Update prevpipe
  */
 
 void	ft_pipe(char **cmd, int len, char **env, int *prevpipe)
@@ -108,25 +99,39 @@ void	ft_pipe(char **cmd, int len, char **env, int *prevpipe)
 }
 
 /*
- ** @brief      Parse the given command.
+ ** @brief      Return command length.
+ */
+
+int	ft_len(char	**cmd)
+{
+	int	len;
+
+	len = 0;
+	while (cmd[len] && *cmd[len] != '|')
+		len++;
+	return (len);
+}
+
+/*
+ ** @brief      Iterate over piped commands.
  **
  ** @usage
  **
- ** Do not forget to surround | and ; with double quotes so that they are not
- ** interpreted by your shell.
+ ** Do not forget to surround "|" with double quotes
+ ** so that it is not interpreted by the shell.
  **
  ** Example:
- ** $ gcc multipipe.c && ./a.out \
- **   /bin/echo five "|" /bin/wc -c "|" /bin/cat -e
  **
- ** Check open fds with valgrind:
- ** $ gcc -Wall -Wextra -Werror -g multipipe.c && \
- **   valgrind -q --trace-children=yes --track-fds=yes ./a.out \
- **   /bin/echo five "|" /bin/wc -c "|" /bin/cat -e
+ ** 	./multipipe /bin/echo five "|" /bin/wc -c "|" /bin/cat -e
  **
- ** @instructions
+ ** File descriptors debugging tools:
  **
- ** - Init prevpipe to a valid fd
+ ** valgrind --trace-children=yes --track-fds=yes
+ **
+ ** #include <sys/stat.h>
+ ** struct stat information; (void)information;
+ ** dprintf (2, "> %s: %i\n", __func__, fstat (*prevpipe, &information));
+ ** dprintf (2, "> %s: %i\n", __func__, getpid());
  */
 
 int	main(int ac, char **cmd, char **env)
