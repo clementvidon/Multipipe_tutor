@@ -84,7 +84,7 @@ using a [**C multi-pipe implementation**](https://github.com/clemedon/Multipipe_
     P   = Pipe    (one pipe for two communicating programs)
 ```
 
-##  Index
+##  Example
 
 The following example dissects the `prg1 | prg2 | prg3` command line execution.
 
@@ -173,7 +173,7 @@ PRG3 in ft_last()
     - close              prevpipe   Unused
     - wait for children
 ```
-[**Return to Index ↑**](#index)
+[**Return to Index ↑**](#example)
 
 ## Illustration
 
@@ -219,7 +219,7 @@ Last program execution.
 (I) prevpipe → PRG3 → Stdout (J)
 ```
 
-[**Return to Index ↑**](#index)
+[**Return to Index ↑**](#example)
 
 # Sources
 
