@@ -86,15 +86,15 @@ using a [**C multi-pipe implementation**](https://github.com/clemedon/Multipipe_
 
 ##  Example
 
-The following example dissects the `prg1 | prg2 | prg3` command line execution.
+The following example dissects a `prg1 | prg2 | prg3` command line execution.
 
 ```
-    Try:
+    Try
 
-    $ git clone git@github.com:clemedon/Multipipe_tutor.git
-    $ cd Multipipe_tutor/src
-    $ make
-    $ ./multipipe /bin/echo five "|" /bin/wc -c "|" /bin/cat -e
+        $ git clone git@github.com:clemedon/Multipipe_tutor.git
+        $ cd Multipipe_tutor/src
+        $ make
+        $ ./multipipe /bin/echo five "|" /bin/wc -c "|" /bin/cat -e
 ```
 
 Don't forget to frame `|` symbol with quotes or it will be interpreted by the
@@ -106,8 +106,8 @@ so as not to get an error from the `close` and `dup2` calls on an invalid fd.
 `prevpipe` is the variable that we use to pass the previous pipe read end to the
 next program Stdin.
 
-- [**Instructions**](#instructions)
-- [**Illustration**](#illustration)
+[**Instructions**](#instructions)
+[**Illustration**](#illustration)
 
 ## Instructions
 
