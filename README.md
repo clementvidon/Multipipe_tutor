@@ -79,7 +79,6 @@ Fig.1 Overall idea of following multi-pipe example.
                \  /  \  /              <interprocess communication
                 P1    P2               <two pipes
 
-
 PRG = Program (one per command)
 P   = Pipe    (one pipe for two communicating programs)
 ```
