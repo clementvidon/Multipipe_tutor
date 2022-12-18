@@ -49,20 +49,20 @@ Fig.0 Interprocess communication with a single pipe.
 ```
 
 
-0. The main process (futur parent) creates a pipe and forks itself which
-duplicates its pipe's set of file descriptors `pipefd[1]` and `pipefd[0]`
-into the newly created (child) process.
+- (0) The main process (futur parent) creates a pipe and forks itself which
+  duplicates its pipe's set of file descriptors `pipefd[1]` and `pipefd[0]` into
+  the newly created (child) process.
 
-1. The parent process closes its pipefd[1] to prevent its process from
-writing in the pipe.
+- (1) The parent process closes its `pipefd[1]` to prevent its process from
+  writing in the pipe.
 
-2. Simultaneously, the child process closes its pipefd[0] to prevent its
-process from reading in the pipe.
+- (2) Simultaneously, the child process closes its `pipefd[0]` to prevent its
+  process from reading in the pipe.
 
-3. In the end we have a parent that can read and a child that can write,
-both sharing the same pipe.  If the child write in the pipe, the data stream
-will find its way out in the read end of the parent process ⇒ interprocess
-communication.
+- (3) In the end we have a parent that can read and a child that can write, both
+  sharing the same pipe.  If the child write in the pipe, the data stream will
+  find its way out in the read end of the parent process ⇒ interprocess
+  communication.
 
 # Multipipe
 
