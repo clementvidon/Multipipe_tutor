@@ -101,8 +101,9 @@ so as not to get an error from the `close` and `dup2` calls on an invalid fd.
 `prevpipe` is the variable that we use to pass the previous pipe read end to the
 next program Stdin.
 
-[**Instructions**](#instructions)
-[**Illustration**](#illustration)
+**Index**
+* [**Instructions**](#instructions)<br>
+* [**Illustration**](#illustration)
 
 ### Instructions
 
