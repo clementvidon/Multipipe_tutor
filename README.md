@@ -103,7 +103,7 @@ next program Stdin.
 
 **Index**
 * [**Instructions**](#instructions)<br>
-* [**Illustration**](#illustration)
+* [**Illustrations**](#illustrations)
 
 ### Instructions
 
@@ -171,7 +171,7 @@ PRG3 in ft_last()
 ```
 [**Return to Index ↑**](#example)
 
-### Illustration
+### Illustrations
 
 The exact path taken by the **stream of data** during the execution is indicated by
 the **`(A)`** to **`(J)`** and  **`→`** symbols.
