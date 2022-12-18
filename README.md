@@ -9,9 +9,7 @@
     <span> · </span>
     <a href="#multi-pipe">Multi-pipe</a>
     <span> · </span>
-    <a href="#instructions">Instructions</a>
-    <span> · </span>
-    <a href="#illustration">Illustration</a>
+    <a href="#example">Example</a>
     <span> · </span>
     <a href="#sources">Sources</a>
     <span> · </span>
@@ -24,87 +22,94 @@ This project aims to guarantee me a quick and clear reunderstanding of the
 implementation of the multi-pipe when the notion will be as rusty as a
 distant memory the day I need it.
 
-For this purpose we will **dissect** the execution of a **C multi-pipe
-implementation** for a program like `prg1 | prg2 | prg3`.
+For this purpose we will **dissect** the `prg1 | prg2 | prg3` command execution
+using a [**C multi-pipe implementation**](https://github.com/clemedon/Multipipe_tutor/tree/main/src).
+
+*For reasons of readability the code does not include the protections.*
 
 [**→ GitHub Page ←**](https://clemedon.github.io/Multipipe_tutor/)<br>
-[**→ GitHub Repo ←**](https://github.com/clemedon/Multipipe_tutor/)<br>
-[**→ Source Code ←**](https://github.com/clemedon/Multipipe_tutor/tree/main/src)
+[**→ GitHub Repo ←**](https://github.com/clemedon/Multipipe_tutor/)
 
 # Pipe
 
-- A pipe is a **unidirectional** data channel that can be used for **interprocess**
-  communication.
+- A pipe is a **unidirectional** data channel that can be used for **interprocess
+  communication**.
 
-- It is made of two descriptors: `pipefd[0]` that refers to the **read end** of
+- It is made of **two descriptors**: `pipefd[0]` that refers to the **read end** of
   the pipe and `pipefd[1]` that refers to the **write end** of the pipe.
 
 - **Data written to the write end of the pipe is buffered** by the kernel until it
   is read from the read end of the pipe.
 
-# Multi-pipe
-
-- The following example creates a pipe and fork to create a child process; the
-  child inherits a **duplicate set of file descriptors that refer to the same
-  pipe**.
-
-- After the fork each process closes the file descriptors that it doesn't need
-  for the pipe to have only **two open ends**, like a normal pipe but with its
-  ends in **two differents processes**.
-
 ```
     Fig.0 Interprocess communication with a single pipe.
+
                    ₍₂₎
         IN→ 1=====xxxx0
               ⁽³⁾↓
         ⁽¹⁾ 1xxxx=====0 →OUT
 
-(0) The main process (futur parent) creates a pipe and forks itself which
-duplicates its `pipefd[1]` and `pipefd[0]` into the newly created (child)
-process.
 
-(1) The parent process closes its pipefd[1] to prevent its process from writing
-in the pipe.
+    (0) The main process (futur parent) creates a pipe and forks itself which
+    duplicates its pipe's set of file descriptors `pipefd[1]` and `pipefd[0]`
+    into the newly created (child) process.
 
-(2) Simultaneously the child process closes its pipefd[0] to prevent its process
-from reading in the pipe.
+    (1) The parent process closes its pipefd[1] to prevent its process from
+    writing in the pipe.
 
-(3) In the end we have a parent that can read and a child that can write, both
-sharing the same pipe.  If the child write in the pipe, the data stream will
-find its way out in the read end of the parent process ⇒ interprocess
-communication.
+    (2) Simultaneously, the child process closes its pipefd[0] to prevent its
+    process from reading in the pipe.
 
+    (3) In the end we have a parent that can read and a child that can write,
+    both sharing the same pipe.  If the child write in the pipe, the data stream
+    will find its way out in the read end of the parent process ⇒ interprocess
+    communication.
 ```
 
-- Alternating several pipes and processes we can thus create an interprocess
+# Multi-pipe
+
+- Alternating several pipes and processes we can create an interprocess
   communication chain, **passing the output of one program as the input of
   another program** and so on.
 
 ```
     Fig.1 Overall idea of following multi-pipe example.
 
-        Stdin → PRG1  PRG2  PRG3 → Stdout  <three program execution
+        Stdin → PRG1  PRG2  PRG3 → Stdout  <three programs execution
                    \  /  \  /              <interprocess communication
                     P1    P2               <two pipes
+
+
+    PRG = Program (one per command)
+    P   = Pipe    (one pipe for two communicating programs)
 ```
 
-- **`PRG`** stands for Program (at least one per command from the command line).
-- **`P`** stands for Pipe (at least one for  communicating programs)
-- No need to mention that **`Stdin`** and **`Stdout`** are the file descriptors
-  where `PRG` reads its input and writes its output.
+##  Index
 
-# Instructions
+The following example dissects the `prg1 | prg2 | prg3` command line execution.
 
-This pseudo code describes each step of the execution of the code.<br>
-You can easily compare this with the original [**C Code**](https://github.com/clemedon/Multipipe_tutor/tree/main/src)<br>
+```
+    Try:
 
-*For reasons of readability the code does not include any protection.*
+    $ git clone git@github.com:clemedon/Multipipe_tutor.git
+    $ cd Multipipe_tutor/src
+    $ make
+    $ ./multipipe /bin/echo five "|" /bin/wc -c "|" /bin/cat -e
+```
+
+Don't forget to frame `|` symbol with quotes or it will be interpreted by the
+shell.
 
 Note that the **first child** doesn't need `prevpipe` because there is **no
 previous pipe** to connect. Thus we must initialize `prevpipe` to any valid fd
 so as not to get an error from the `close` and `dup2` calls on an invalid fd.
 `prevpipe` is the variable that we use to pass the previous pipe read end to the
 next program Stdin.
+
+- [**Instructions**](#instructions)
+- [**Illustration**](#illustration)
+
+## Instructions
 
 ```
 main()
@@ -168,12 +173,9 @@ PRG3 in ft_last()
     - close              prevpipe   Unused
     - wait for children
 ```
+[**Return to Index ↑**](#index)
 
-# Illustration
-
-Illustration of the data stream travelling through our two pipes and their
-extra-process duplicates, each `=` represent a pipe with its write end at left
-and its read end at right.
+## Illustration
 
 The exact path taken by the stream of data during the execution is indicated by
 the **`(A)`** to **`(J)`** and  **`→`** symbols.
@@ -217,8 +219,7 @@ Last program execution.
 (I) prevpipe → PRG3 → Stdout (J)
 ```
 
-[**Return to Instructions ↑**](#instructions)<br>
-[**Return to Illustration ↑**](#illustration)
+[**Return to Index ↑**](#index)
 
 # Sources
 

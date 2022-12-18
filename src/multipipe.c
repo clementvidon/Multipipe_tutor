@@ -13,7 +13,6 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <string.h>
-#include <stdio.h>
 
 /*
  ** @brief      Last program.
@@ -126,12 +125,18 @@ int	ft_len(char	**cmd)
  **
  ** File descriptors debugging tools:
  **
- ** valgrind --trace-children=yes --track-fds=yes
+ ** 	- Open at exit:
+ **       valgrind --trace-children=yes --track-fds=yes
  **
- ** #include <sys/stat.h>
- ** struct stat information; (void)information;
- ** dprintf (2, "> %s: %i\n", __func__, fstat (*prevpipe, &information));
- ** dprintf (2, "> %s: %i\n", __func__, getpid());
+ ** 	- Print fds status:
+ **
+ ** 	  #include <stdio.h>
+ ** 	  #include <sys/stat.h>
+ **
+ ** 	  struct stat information;
+ **
+ ** 	  dprintf (2, "> %s: %i\n", __func__, fstat (*prevpipe, &information));
+ ** 	  dprintf (2, "> %s: %i\n", __func__, getpid());
  */
 
 int	main(int ac, char **cmd, char **env)
