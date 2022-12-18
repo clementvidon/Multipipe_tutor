@@ -7,9 +7,7 @@
     <span> · </span>
     <a href="#pipe">Pipe</a>
     <span> · </span>
-    <a href="#multi-pipe">Multi-pipe</a>
-    <span> · </span>
-    <a href="#example">Example</a>
+    <a href="#multipipe">Multipipe</a>
     <span> · </span>
     <a href="#sources">Sources</a>
     <span> · </span>
@@ -66,7 +64,7 @@ will find its way out in the read end of the parent process ⇒ interprocess
 communication.
 ```
 
-# Multi-pipe
+# Multipipe
 
 - Alternating several pipes and processes we can create an interprocess
   communication chain, **passing the output of one program as the input of
@@ -106,7 +104,7 @@ next program Stdin.
 [**Instructions**](#instructions)
 [**Illustration**](#illustration)
 
-## Instructions
+### Instructions
 
 ```
 main()
@@ -172,7 +170,7 @@ PRG3 in ft_last()
 ```
 [**Return to Index ↑**](#example)
 
-## Illustration
+### Illustration
 
 The exact path taken by the **stream of data** during the execution is indicated by
 the **`(A)`** to **`(J)`** and  **`→`** symbols.
