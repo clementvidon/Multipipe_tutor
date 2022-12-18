@@ -42,28 +42,28 @@ using a [**C multi-pipe implementation**](https://github.com/clemedon/Multipipe_
   is read from the read end of the pipe.
 
 ```
-    Fig.0 Interprocess communication with a single pipe.
+Fig.0 Interprocess communication with a single pipe.
 
-                   ₍₂₎
-        IN→ 1=====xxxx0
-              ⁽³⁾↓
-        ⁽¹⁾ 1xxxx=====0 →OUT
+               ₍₂₎
+    IN→ 1=====xxxx0
+          ⁽³⁾↓
+    ⁽¹⁾ 1xxxx=====0 →OUT
 
 
-    (0) The main process (futur parent) creates a pipe and forks itself which
-    duplicates its pipe's set of file descriptors `pipefd[1]` and `pipefd[0]`
-    into the newly created (child) process.
+(0) The main process (futur parent) creates a pipe and forks itself which
+duplicates its pipe's set of file descriptors `pipefd[1]` and `pipefd[0]`
+into the newly created (child) process.
 
-    (1) The parent process closes its pipefd[1] to prevent its process from
-    writing in the pipe.
+(1) The parent process closes its pipefd[1] to prevent its process from
+writing in the pipe.
 
-    (2) Simultaneously, the child process closes its pipefd[0] to prevent its
-    process from reading in the pipe.
+(2) Simultaneously, the child process closes its pipefd[0] to prevent its
+process from reading in the pipe.
 
-    (3) In the end we have a parent that can read and a child that can write,
-    both sharing the same pipe.  If the child write in the pipe, the data stream
-    will find its way out in the read end of the parent process ⇒ interprocess
-    communication.
+(3) In the end we have a parent that can read and a child that can write,
+both sharing the same pipe.  If the child write in the pipe, the data stream
+will find its way out in the read end of the parent process ⇒ interprocess
+communication.
 ```
 
 # Multi-pipe
@@ -73,28 +73,26 @@ using a [**C multi-pipe implementation**](https://github.com/clemedon/Multipipe_
   another program** and so on.
 
 ```
-    Fig.1 Overall idea of following multi-pipe example.
+Fig.1 Overall idea of following multi-pipe example.
 
-        Stdin → PRG1  PRG2  PRG3 → Stdout  <three programs execution
-                   \  /  \  /              <interprocess communication
-                    P1    P2               <two pipes
+    Stdin → PRG1  PRG2  PRG3 → Stdout  <three programs execution
+               \  /  \  /              <interprocess communication
+                P1    P2               <two pipes
 
 
-    PRG = Program (one per command)
-    P   = Pipe    (one pipe for two communicating programs)
+PRG = Program (one per command)
+P   = Pipe    (one pipe for two communicating programs)
 ```
 
 ##  Example
 
 The following example dissects a `prg1 | prg2 | prg3` command line execution.
 
-```
-    Try
-
-        $ git clone git@github.com:clemedon/Multipipe_tutor.git
-        $ cd Multipipe_tutor/src
-        $ make
-        $ ./multipipe /bin/echo five "|" /bin/wc -c "|" /bin/cat -e
+```bash
+$ git clone git@github.com:clemedon/Multipipe_tutor.git
+$ cd Multipipe_tutor/src
+$ make
+$ ./multipipe /bin/echo five "|" /bin/wc -c "|" /bin/cat -e
 ```
 
 Don't forget to frame `|` symbol with quotes or it will be interpreted by the
@@ -177,7 +175,7 @@ PRG3 in ft_last()
 
 ## Illustration
 
-The exact path taken by the stream of data during the execution is indicated by
+The exact path taken by the **stream of data** during the execution is indicated by
 the **`(A)`** to **`(J)`** and  **`→`** symbols.
 
 ```
