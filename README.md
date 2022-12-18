@@ -22,7 +22,7 @@ This project aims to guarantee me a quick and clear reunderstanding of the
 implementation of the multi-pipe when the notion will be as rusty as a
 distant memory the day I need it.
 
-For this purpose we will **dissect** the `prg1 | prg2 | prg3` command execution
+For this purpose we will **dissect** the `prg1 | prg2 | prg3` **command execution**
 using a [**C multi-pipe implementation**](https://github.com/clemedon/Multipipe_tutor/tree/main/src).
 
 *For reasons of readability the code does not include the protections.*
