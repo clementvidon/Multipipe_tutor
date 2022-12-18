@@ -83,10 +83,10 @@ void	ft_pipe(char **cmd, int len, char **env, int *prevpipe)
 	if (cpid == 0)
 	{
 		close (pipefd[0]);
-		dup2 (*prevpipe, STDIN_FILENO);
-		close (*prevpipe);
 		dup2 (pipefd[1], STDOUT_FILENO);
 		close (pipefd[1]);
+		dup2 (*prevpipe, STDIN_FILENO);
+		close (*prevpipe);
 		cmd[len] = NULL;
 		execve (cmd[0], cmd, env);
 	}

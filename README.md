@@ -121,10 +121,10 @@ PRG1 in ft_pipe()
   Child
 
     - close              P1[0]      Unused
-    - redirect Stdin  to prevpipe   Here Stdin (cf. prevpipe init)
-    - close              prevpipe   Not needed anymore
     - redirect Stdout to P1[1]      Fill the pipe with PRG1 output
     - close              P1[1]      Not needed anymore
+    - redirect Stdin  to prevpipe   Here Stdin (cf. prevpipe init)
+    - close              prevpipe   Not needed anymore
     - exec
 
   Parent
@@ -141,10 +141,10 @@ PRG2 in ft_pipe()
   Child
 
     - close              P2[0]      Unused
-    - redirect Stdin  to prevpipe   Here P1[0] (the previous P[0])
-    - close              prevpipe   Not needed anymore
     - redirect Stdout to P2[1]      Fill the pipe with PRG2 output
     - close              P2[1]      Not needed anymore
+    - redirect Stdin  to prevpipe   Here P1[0] (the previous P[0])
+    - close              prevpipe   Not needed anymore
     - exec
 
   Parent
