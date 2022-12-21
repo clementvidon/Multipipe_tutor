@@ -16,7 +16,7 @@
 
 # Summary
 
-This project aims to guarantee me a quick and clear reunderstanding of my
+This small project aims to guarantee me a quick and clear reunderstanding of my
 implementation of the multi-pipe when the notion will be as rusty as a distant
 memory the day I need it.
 
